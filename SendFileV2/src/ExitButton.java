@@ -15,7 +15,7 @@ public class ExitButton extends JButton implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		receiver.interrupt();
 		try {
-			receiver.join(5000);
+			receiver.join(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

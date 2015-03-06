@@ -57,7 +57,7 @@ public class SFGUI extends JFrame implements WindowListener {
 	public void windowClosing(WindowEvent e) {
 		receiver.interrupt();
 		try {
-			receiver.join(5000);
+			receiver.join(1000);
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
