@@ -1,6 +1,3 @@
-
-
-import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
@@ -14,11 +11,10 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class SFGUI extends JFrame implements WindowListener {
 	private JTextArea ta;
 	private Receiver receiver;
-	
+
 	public SFGUI() {
 		super("SendFile");
-		receiver = new Receiver(new GUIInformer(GUIInformer.RECEIVE,
-				this));
+		receiver = new Receiver(new GUIInformer(GUIInformer.RECEIVE, this));
 		setVisible(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		try {
@@ -49,51 +45,44 @@ public class SFGUI extends JFrame implements WindowListener {
 
 	@Override
 	public void windowActivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
+		return;
 	}
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
+		return;
 	}
 
-	
+	@Override
 	public void windowClosing(WindowEvent e) {
 		receiver.interrupt();
 		try {
 			receiver.join(5000);
 		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		System.exit(0);
-		
+
 	}
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
+		return;
 	}
 
 	@Override
 	public void windowDeiconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
+		return;
 	}
 
 	@Override
 	public void windowIconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
+		return;
 	}
 
 	@Override
 	public void windowOpened(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
+		return;
 	}
 
 }

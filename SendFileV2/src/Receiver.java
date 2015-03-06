@@ -1,5 +1,3 @@
-
-
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.File;
@@ -18,12 +16,13 @@ public class Receiver extends Thread {
 		this.si = si;
 	}
 
-	private void receiveFile(DataInputStream dis, long totSize) throws Exception {
-		long size = dis.readLong();
-		String name = dis.readUTF();
-		File f = new File(name);
-		if (f.getParent() != null){
-		f.getParentFile().mkdirs();
+	private void receiveFile(DataInputStream dis, long totalSizeOfFiles)
+			throws Exception {
+		long fileSize = dis.readLong();
+		String fileName = dis.readUTF();
+		File f = new File(fileName);
+		if (f.getParent() != null) {
+			f.getParentFile().mkdirs();
 		}
 		FileOutputStream fos = new FileOutputStream(f);
 		BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -31,18 +30,18 @@ public class Receiver extends Thread {
 		byte[] buffer = new byte[2048];
 		int bytesRead = 0;
 
-		int toRead = size >= buffer.length ? buffer.length : (int)size;
+		int toRead = fileSize >= buffer.length ? buffer.length : (int) fileSize;
 		long totalRead = 0;
 
 		while ((bytesRead = dis.read(buffer, 0, toRead)) > 0
 				&& !isInterrupted()) {
 			bos.write(buffer, 0, bytesRead);
-			si.inform(totSize, bytesRead);
+			si.inform(totalSizeOfFiles, bytesRead);
 			totalRead += bytesRead;
-			toRead = size - totalRead >= buffer.length ? buffer.length : (int)(size
-					- totalRead);
+			toRead = fileSize - totalRead >= buffer.length ? buffer.length
+					: (int) (fileSize - totalRead);
 		}
-		
+
 		bos.flush();
 		bos.close();
 	}
@@ -64,11 +63,10 @@ public class Receiver extends Thread {
 				InputStream is = conn.getInputStream();
 				DataInputStream dis = new DataInputStream(is);
 
-				long totSize = dis.readLong();
-				int size = dis.readInt();
-//			System.out.println("Receving: " + totSize);
-				for (int i = 0; i < size; i++) {
-					receiveFile(dis,totSize);
+				long totalSizeOfFiles = dis.readLong();
+				int nbrOfFiles = dis.readInt();
+				for (int i = 0; i < nbrOfFiles && !isInterrupted(); i++) {
+					receiveFile(dis, totalSizeOfFiles);
 				}
 				si.reset();
 
@@ -77,8 +75,6 @@ public class Receiver extends Thread {
 				}
 				socket.close();
 
-			} catch (SocketException se) {
-				// System.out.println("Socket timeout, reconnecting.");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

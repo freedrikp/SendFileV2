@@ -1,5 +1,3 @@
-
-
 public class TerminalInformer extends StatusInformer {
 
 	public TerminalInformer(String title) {
@@ -7,11 +5,11 @@ public class TerminalInformer extends StatusInformer {
 	}
 
 	public void extraInfo(int percent, double speed) {
+		return;
 	}
 
 	public void println(String line) {
 		System.out.println(line);
-
 	}
 
 }

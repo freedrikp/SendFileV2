@@ -1,5 +1,3 @@
-
-
 import javax.swing.ProgressMonitor;
 
 public class GUIInformer extends StatusInformer {
