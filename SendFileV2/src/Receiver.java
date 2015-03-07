@@ -72,11 +72,15 @@ public class Receiver extends Thread {
 				if (!isInterrupted()) {
 					si.println("Receiving finished!");
 				}
-				socket.close();
-
+				conn.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
+		try {
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		si.println("Receiver stopped!");
 	}
